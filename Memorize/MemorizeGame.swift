@@ -12,8 +12,8 @@ struct MemorizeGame <CardContent> {
     private(set) var cards: Array<Card>
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
-        self.cards = []
-        for pairIndex in 0..<numberOfPairsOfCards {
+        cards = []
+        for pairIndex in 0..<max(2, numberOfPairsOfCards) {
             cards.append(Card(content: cardContentFactory(pairIndex)))
             cards.append(Card(content: cardContentFactory(pairIndex)))
         }
@@ -23,8 +23,13 @@ struct MemorizeGame <CardContent> {
         
     }
     
+    mutating func shuffle() {
+        cards.shuffle()
+        //print(cards)
+    }
+    
     struct Card {
-        var isFaceUp: Bool = false
+        var isFaceUp: Bool = true
         var isMatched: Bool = false
         let content: CardContent
     }
