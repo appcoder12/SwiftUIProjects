@@ -14,8 +14,8 @@ struct MemorizeGame <CardContent> where CardContent: Equatable {
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         cards = []
         for pairIndex in 0..<max(2, numberOfPairsOfCards) {
-            cards.append(Card(content: cardContentFactory(pairIndex)))
-            cards.append(Card(content: cardContentFactory(pairIndex)))
+            cards.append(Card(content: cardContentFactory(pairIndex), id: "\(pairIndex+1)a"))
+            cards.append(Card(content: cardContentFactory(pairIndex), id: "\(pairIndex+1)b"))
         }
     }
     
@@ -28,17 +28,18 @@ struct MemorizeGame <CardContent> where CardContent: Equatable {
         //print(cards)
     }
     
-    struct Card: Equatable {
+    struct Card: Equatable, Identifiable {
+        
+        var isFaceUp: Bool = true
+        var isMatched: Bool = false
+        let content: CardContent
+        
+        var id: String //ObjectIdentifier is a "Don't Care" (Generics) so I changed it to String
+        
         static func == (lhs: MemorizeGame<CardContent>.Card, rhs: MemorizeGame<CardContent>.Card) -> Bool {
             return lhs.isFaceUp == rhs.isFaceUp &&
             lhs.isMatched == rhs.isMatched &&
             lhs.content == rhs.content
         }
-        
-        var isFaceUp: Bool = true
-        var isMatched: Bool = false
-        let content: CardContent
     }
-    
-    
 }
