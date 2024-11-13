@@ -19,9 +19,26 @@ struct MemorizeGame <CardContent> where CardContent: Equatable {
         }
     }
     
-    func choose(_ card: Card) {
-        
+    mutating func choose(_ card: Card) {
+//        if let index = index(of: card) {
+//            cards[index].isFaceUp.toggle()
+//        }
+        if let chosenIndex = cards.firstIndex(where: { cardToCheck in
+            cardToCheck.id == card.id
+        }) {
+            cards[chosenIndex].isFaceUp.toggle()
+        }
     }
+    
+//    func index(of card: Card) -> Int? {
+//        for index in cards.indices {
+//        //for index in 0..<cards.count {
+//            if(cards[index].id == card.id) {
+//                return index
+//            }
+//        }
+//        return nil // FIXME: Bogus!
+//    }
     
     mutating func shuffle() {
         cards.shuffle()

@@ -53,13 +53,13 @@ struct EmojiMemoryGameView: View {
         return LazyVGrid(columns: [GridItem(.adaptive(minimum: 120), spacing: 0)],spacing: 0, content: {
     //return LazyVGrid(columns: [GridItem(), GridItem()], content: {
     //Here the animation is happening on the For Each index rather than on View that is why we are not seeing cards flying in the application. We need to put the animation on each view.
-            ForEach(viewModel.cards) { card in
-                VStack(spacing: 0) {
+            ForEach(viewModel.cards, id: \.id) { card in
                     CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .padding(4)
-                    Text(verbatim: card.id)
-                }
+                        .onTapGesture {
+                            viewModel.choose(card)
+                        }
             }
         })
         .foregroundColor(.orange)
