@@ -17,6 +17,7 @@ struct EmojiMemoryGameView: View {
         VStack {
             ScrollView {
                 cards
+                    .animation(.default, value: viewModel.cards)
             }
             Spacer()
             Button("Shuffle") {
@@ -53,10 +54,12 @@ struct EmojiMemoryGameView: View {
     //return LazyVGrid(columns: [GridItem(), GridItem()], content: {
     //Here the animation is happening on the For Each index rather than on View that is why we are not seeing cards flying in the application. We need to put the animation on each view.
             ForEach(viewModel.cards) { card in
-                CardView(card)
-                    .aspectRatio(2/3, contentMode: .fit)
-                    .padding(4)
-                    .animation(.default, value: viewModel.cards)
+                VStack(spacing: 0) {
+                    CardView(card)
+                        .aspectRatio(2/3, contentMode: .fit)
+                        .padding(4)
+                    Text(verbatim: card.id)
+                }
             }
         })
         .foregroundColor(.orange)
