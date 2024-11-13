@@ -55,6 +55,7 @@ struct EmojiMemoryGameView: View {
                 CardView(viewModel.cards[index])
                     .aspectRatio(2/3, contentMode: .fit)
                     .padding(4)
+                    .animation(.default, value: viewModel.cards)
             }
         })
         .foregroundColor(.orange)
