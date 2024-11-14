@@ -21,27 +21,34 @@ struct MemorizeGame <CardContent> where CardContent: Equatable {
     
     var indexOfTheFirstDrawnCard: Int? {
         get {
-            var faceUpCardIndices = [Int]()
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    faceUpCardIndices.append(index)
-                }
+            let indicesOfFaceUpCards = cards.indices.filter { index in
+                cards[index].isFaceUp
             }
-            if faceUpCardIndices.count == 1 {
-                return faceUpCardIndices.first
-            } else {
-                return nil
-            }
+            return indicesOfFaceUpCards.count == 1 ? indicesOfFaceUpCards.first : nil
+//            var faceUpCardIndices = [Int]()
+//            for index in cards.indices {
+//                if cards[index].isFaceUp {
+//                    faceUpCardIndices.append(index)
+//                }
+//            }
+//            if faceUpCardIndices.count == 1 {
+//                return faceUpCardIndices.first
+//            } else {
+//                return nil
+//            }
         }
         
         set {
-            for index in cards.indices {
-                if index == newValue {
-                    cards[index].isFaceUp = true
-                } else {
-                    cards[index].isFaceUp = false
-                }
+            cards.indices.forEach { index in
+                cards[index].isFaceUp = (index == newValue) ? true : false
             }
+//            for index in cards.indices {
+//                if index == newValue {
+//                    cards[index].isFaceUp = true
+//                } else {
+//                    cards[index].isFaceUp = false
+//                }
+//            }
             
         }
     }
