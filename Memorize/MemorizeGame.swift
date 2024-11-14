@@ -19,14 +19,38 @@ struct MemorizeGame <CardContent> where CardContent: Equatable {
         }
     }
     
+    var indexOfTheFirstDrawnCard: Int?
+    
     mutating func choose(_ card: Card) {
 //        if let index = index(of: card) {
 //            cards[index].isFaceUp.toggle()
 //        }
         if let chosenIndex = cards.firstIndex(where: { cardToCheck in
-            cardToCheck.id == card.id
+            if cardToCheck.id == card.id {
+                print("\(cardToCheck.id)")
+                return true
+            } else {
+                return false
+            }
         }) {
-            cards[chosenIndex].isFaceUp.toggle()
+            if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let firstChosenIndex = indexOfTheFirstDrawnCard {
+                    //2nd Card is Drawn
+                    if cards[firstChosenIndex].content == cards[chosenIndex].content {
+                        //Both drawn cards are matched
+                        cards[firstChosenIndex].isMatched = true
+                        cards[chosenIndex].isMatched = true
+                    }
+                    indexOfTheFirstDrawnCard = nil
+                } else {
+                    //Both drawn cards do not match
+                    for index in cards.indices {
+                        cards[index].isFaceUp = false
+                    }
+                    indexOfTheFirstDrawnCard = chosenIndex
+                }
+                cards[chosenIndex].isFaceUp = true
+            }
         }
     }
     
@@ -47,7 +71,7 @@ struct MemorizeGame <CardContent> where CardContent: Equatable {
     
     struct Card: Equatable, Identifiable {
         
-        var isFaceUp: Bool = true
+        var isFaceUp: Bool = false
         var isMatched: Bool = false
         let content: CardContent
         
